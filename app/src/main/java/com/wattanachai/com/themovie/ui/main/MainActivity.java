@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.wattanachai.com.themovie.R;
+import com.wattanachai.com.themovie.network.ApiClient;
 import com.wattanachai.com.themovie.network.model.Movie;
 import com.wattanachai.com.themovie.presenter.MoviePresenter;
 import com.wattanachai.com.themovie.ui.adapter.MoviesAdapter;
@@ -16,8 +17,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements MoviePresenter
-        .MoviePresenterListener {
+public class MainActivity extends AppCompatActivity implements MainView {
     private static final String TAG = MainActivity.class.getSimpleName();
     MoviePresenter moviePresenter;
     private final static String API_KEY = "32c7ee8f67b752a2845f130de5bff1d3";
@@ -33,12 +33,12 @@ public class MainActivity extends AppCompatActivity implements MoviePresenter
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        moviePresenter = new MoviePresenter(this, this);
+        moviePresenter = new MoviePresenter(new ApiClient(), this);
         moviePresenter.getMovies(API_KEY);
     }
 
     @Override
-    public void moviesReady(List<Movie> movies) {
+    public void getMovieListSuccess(List<Movie> movies) {
         recyclerView.setAdapter(new MoviesAdapter(movies, R.layout.list_item_movie,
                 getApplicationContext()));
         Log.d(TAG, "Number of movies received: " + movies.size());

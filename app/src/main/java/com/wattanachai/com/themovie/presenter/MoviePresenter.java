@@ -1,12 +1,8 @@
 package com.wattanachai.com.themovie.presenter;
 
-import android.content.Context;
-
 import com.wattanachai.com.themovie.network.ApiClient;
-import com.wattanachai.com.themovie.network.model.Movie;
 import com.wattanachai.com.themovie.network.model.MovieResponse;
-
-import java.util.List;
+import com.wattanachai.com.themovie.ui.main.MainView;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -17,19 +13,12 @@ import retrofit2.Response;
  */
 
 public class MoviePresenter {
-    private final Context context;
-    private final MoviePresenterListener mListener;
+    private final MainView mainView;
     private final ApiClient apiClient;
 
-    public interface MoviePresenterListener {
-        void moviesReady(List<Movie> countries);
-    }
-
-
-    public MoviePresenter(MoviePresenterListener listener, Context context) {
-        this.mListener = listener;
-        this.context = context;
-        this.apiClient = new ApiClient();
+    public MoviePresenter(ApiClient apiClient, MainView mainView) {
+        this.apiClient = apiClient;
+        this.mainView = mainView;
     }
 
     public void getMovies(String apiKey) {
@@ -40,7 +29,7 @@ public class MoviePresenter {
                             response) {
                         MovieResponse result = response.body();
                         if (null != result) {
-                            mListener.moviesReady(result.getResults());
+                            mainView.getMovieListSuccess(result.getResults());
                         }
                     }
 
