@@ -9,5 +9,10 @@ import java.util.List;
  */
 
 public interface MainView {
-    void getMovieListSuccess(List<Movie> movies);
+    void getMovieListSuccess(List<Movie> movies, int totalPage);
+
+    void getMovieFailed(Throwable t);
+
+    void retryPageLoad();
+
 }

@@ -21,15 +21,16 @@ public class MoviePresenter {
         this.mainView = mainView;
     }
 
-    public void getMovies(String apiKey) {
-        apiClient.getMovieClient().getTopRatedMovies(apiKey)
+    public void getMovies(String apiKey, int page) {
+        apiClient.getMovieClient().getTopRatedMovies(apiKey, page)
                 .enqueue(new Callback<MovieResponse>() {
                     @Override
                     public void onResponse(Call<MovieResponse> call, Response<MovieResponse>
                             response) {
                         MovieResponse result = response.body();
                         if (null != result) {
-                            mainView.getMovieListSuccess(result.getResults());
+                            mainView.getMovieListSuccess(result.getResults(), result
+                                    .getTotalPages());
                         }
                     }
 
@@ -39,6 +40,7 @@ public class MoviePresenter {
                             throw new InterruptedException("Error occur while get api!");
                         } catch (InterruptedException e) {
                             e.printStackTrace();
+                            mainView.getMovieFailed(t);
                         }
                     }
                 });
