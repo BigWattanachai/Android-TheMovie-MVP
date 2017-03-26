@@ -86,7 +86,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         .into(movieVH.mPosterImg);
                 movieVH.mMovieTitle.setText(movie.getTitle());
 
-
+                movieVH. mRating.setText(String.valueOf(movie.getVoteAverage()));
                 movieVH.mYear.setText(movie.getReleaseDate().substring(0, 4) + " | " + movie
                         .getOriginalLanguage().toUpperCase());
                 movieVH.mMovieDesc.setText(movie.getOverview());
@@ -131,6 +131,8 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         TextView mMovieDesc;
         @BindView(R.id.movie_year)
         TextView mYear;
+        @BindView(R.id.movie_rating)
+        TextView mRating;
         @BindView(R.id.movie_poster)
         ImageView mPosterImg;
         @BindView(R.id.movie_progress)
